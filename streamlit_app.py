@@ -2,6 +2,9 @@ import streamlit as st
 import os
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
+# MUST BE FIRST streamlit call
+st.set_page_config(page_title="Student Feedback Classifier", page_icon="📚")
+
 # Fix tokenizer parallelism warning
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
@@ -63,7 +66,7 @@ def classify_feedback(text):
     return "Academics"
 
 # ---------- UI ----------
-st.set_page_config(page_title="Student Feedback Classifier", page_icon="📚")
+
 st.title("🎓 Student Feedback Classifier")
 st.markdown("Classify feedback into **Academics**, **Facilities**, or **Administration** using FLAN-T5.")
 
