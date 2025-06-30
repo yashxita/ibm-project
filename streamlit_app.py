@@ -54,23 +54,22 @@ def classify_feedback(text):
         if category.lower() in generated_text.lower():
             return category
 
-    # Fallback keywords — Facilities checked first!
+    # fallback keywords 
     text_lower = text.lower()
     if any(word in text_lower for word in ["library", "cafeteria", "hostel", "wifi", "internet", "building", "room", "facility", "equipment", "ac", "air conditioning", "fan"]):
         return "Facilities"
     elif any(word in text_lower for word in ["admin", "office", "staff", "application", "registration", "procedure", "policy", "management"]):
         return "Administration"
-    elif any(word in text_lower for word in ["professor", "lecture", "class", "course", "curriculum", "teaching", "assignment", "exam", "grade"]):
+    elif any(word in text_lower for word in ["professor", "lecture", "class", "course", "curriculum", "teachers", "assignment", "exam", "grade"]):
         return "Academics"
 
     return "Academics"
 
-# ---------- UI ----------
-
+# ui 
 st.title("🎓 Student Feedback Classifier")
 st.markdown("Classify feedback into **Academics**, **Facilities**, or **Administration** using FLAN-T5.")
 
-# ---- Session state keys ----
+# state keys
 if "feedback_text" not in st.session_state:
     st.session_state.feedback_text = ""
 if "example_to_use" not in st.session_state:
@@ -80,7 +79,6 @@ if "use_example" not in st.session_state:
 if "clear_trigger" not in st.session_state:
     st.session_state.clear_trigger = False
 
-# ---- Handle triggers before rendering widget ----
 if st.session_state.use_example:
     st.session_state.feedback_text = st.session_state.example_to_use
     st.session_state.use_example = False
@@ -91,7 +89,7 @@ if st.session_state.clear_trigger:
     st.session_state.clear_trigger = False
     st.rerun()
 
-# ---- Form input ----
+# form
 with st.form("classification_form"):
     st.text_area(
         "✍️ Enter student feedback",
@@ -101,7 +99,7 @@ with st.form("classification_form"):
     )
     submit = st.form_submit_button("Classify")
 
-# ---- Classification ----
+# classified
 if submit:
     feedback_input = st.session_state.feedback_text
     if feedback_input.strip():
@@ -111,7 +109,7 @@ if submit:
     else:
         st.warning("Please enter feedback to classify.")
 
-# ---- Sidebar ----
+# sidebar
 st.sidebar.title("ℹ️ About")
 st.sidebar.markdown("""
 This app uses [FLAN-T5](https://huggingface.co/google/flan-t5-base), a fine-tuned T5 model, to classify student feedback into:
@@ -122,7 +120,7 @@ This app uses [FLAN-T5](https://huggingface.co/google/flan-t5-base), a fine-tune
 Built with ❤️ using Streamlit and Hugging Face Transformers.
 """)
 
-# ---- Examples ----
+# example cases
 st.sidebar.markdown("Try examples:")
 example = st.sidebar.radio(
     "Examples:",
